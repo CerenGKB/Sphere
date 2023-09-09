@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import gsap from 'gsap'
 import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
 
@@ -31,7 +32,7 @@ new THREE.ShaderMaterial({
   fragmentShader,
   uniforms: {
     globeTexture : {
-      value: new THREE.TextureLoader().load('./img/uvearthcloud.jpg')
+      value: new THREE.TextureLoader().load('./img/uvearthdark.jpg')
     }
   }
 })
@@ -56,6 +57,27 @@ const group = new THREE.Group()
 group.add(sphere)
 scene.add(group)
 
+const starVertices = []
+for( let i = 0; i< 10000 ; i++){
+  const x = (Math.random() - 0.5) * 2000
+  const y = (Math.random() - 0.5) * 2000
+  const z = -(Math.random()) * 2000
+  starVertices.push(x,y,z)
+}
+
+const starGeometry = new THREE.BufferGeometry()
+starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(
+  starVertices, 3
+))
+
+const starMaterial = new THREE.PointsMaterial({
+  color: 0xffffff
+})
+
+const stars = new THREE.Points(starGeometry, starMaterial)
+
+scene.add(stars)
+
 
 camera.position.z = 10
 
@@ -68,8 +90,12 @@ const mouse = {
 function animate(){
   requestAnimationFrame(animate)
   renderer.render(scene,camera)
-  sphere.rotation.y += 0.001
-  group.rotation.y = mouse.x * 0.4
+  sphere.rotation.y += 0.003
+  gsap.to(group.rotation, {
+    x: -mouse.y * 0.3,
+    y: mouse.x * 0.5,
+    duration: 1
+  })
 }
 
 animate()
