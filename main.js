@@ -18,11 +18,14 @@ const camera = new THREE.PerspectiveCamera(
 )
 
 const renderer = new THREE.WebGLRenderer({
-  antialias : true
+  antialias : true,
+  canvas : document.querySelector('canvas')
 })
 
+const canvasContainer = document.querySelector('#canvasContainer')
 renderer.setSize(innerWidth,innerHeight)
 renderer.setPixelRatio(window.devicePixelRatio)
+
 
 document.body.appendChild(renderer.domElement)
 
@@ -79,7 +82,7 @@ const stars = new THREE.Points(starGeometry, starMaterial)
 scene.add(stars)
 
 
-camera.position.z = 10
+camera.position.z = 15
 
 
 const mouse = {
