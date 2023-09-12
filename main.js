@@ -7,12 +7,12 @@ import atmosphereVertexShader from './shaders/atmosphereVertex.glsl'
 import atmosphereFragmentShader from './shaders/atmosphereFragment.glsl'
 
 
-
+const canvasContainer = document.querySelector('#canvasContainer')
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(
   75,
-  innerWidth / innerHeight,
+  canvasContainer.offsetWidth/ canvasContainer.offsetHeight,
   0.1,
   1000
 )
@@ -22,12 +22,10 @@ const renderer = new THREE.WebGLRenderer({
   canvas : document.querySelector('canvas')
 })
 
-const canvasContainer = document.querySelector('#canvasContainer')
-renderer.setSize(innerWidth,innerHeight)
+renderer.setSize(canvasContainer.offsetWidth, canvasContainer.offsetHeight)
 renderer.setPixelRatio(window.devicePixelRatio)
 
 
-document.body.appendChild(renderer.domElement)
 
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(5,50,50), 
 new THREE.ShaderMaterial({
