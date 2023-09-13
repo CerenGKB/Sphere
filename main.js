@@ -83,6 +83,15 @@ scene.add(stars)
 camera.position.z = 15
 
 
+const point = new THREE.Mesh(new THREE.SphereGeometry(1,50,50), 
+new THREE.MeshBasicMaterial({
+  color: '#ff0000'
+})
+)
+
+point.position.z = 6
+scene.add(poiny)
+
 const mouse = {
   x: undefined,
   y: undefined
@@ -91,7 +100,7 @@ const mouse = {
 function animate(){
   requestAnimationFrame(animate)
   renderer.render(scene,camera)
-  sphere.rotation.y += 0.003
+/*   sphere.rotation.y += 0.003 */
   gsap.to(group.rotation, {
     x: -mouse.y * 0.3,
     y: mouse.x * 0.5,
