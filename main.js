@@ -83,25 +83,32 @@ scene.add(stars)
 camera.position.z = 15
 
 
-const point = new THREE.Mesh(new THREE.SphereGeometry(0.1,50,50), 
-new THREE.MeshBasicMaterial({
+
+
+function createPoint(lat , long){
+
+  const point = new THREE.Mesh(new THREE.SphereGeometry(0.1,50,50), 
+  new THREE.MeshBasicMaterial({
   color: '#ff0000'
 })
 )
 
-const latitude = (52.3676 / 180) * Math.PI
-const longitude = (4.9041 / 180) * Math.PI
-const radius = 5
+  const latitude = (lat / 180) * Math.PI
+  const longitude = (long / 180) * Math.PI
+  const radius = 5
+  
+  const x = radius * Math.cos(latitude) * Math.sin(longitude)
+  const y = radius * Math.sin(latitude) 
+  const z = radius * Math.cos(latitude) * Math.cos(longitude)
+  
+  point.position.x = x
+  point.position.y = y
+  point.position.z = z
+  
+  group.add(point)
+}
 
-const x = radius * Math.cos(latitude) * Math.sin(longitude)
-const y = radius * Math.sin(latitude) 
-const z = radius * Math.cos(latitude) * Math.cos(longitude)
-
-point.position.x = x
-point.position.y = y
-point.position.z = z
-
-group.add(point)
+createPoint(52.3676, 4.9041)
 
 sphere.rotation.y = -Math.PI / 2
 
