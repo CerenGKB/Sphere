@@ -87,7 +87,7 @@ camera.position.z = 15
 
 function createPoint(lat , long){
 
-  const point = new THREE.Mesh(new THREE.SphereGeometry(0.1,50,50), 
+  const point = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,1), 
   new THREE.MeshBasicMaterial({
   color: '#ff0000'
 })
@@ -105,6 +105,8 @@ function createPoint(lat , long){
   point.position.y = y
   point.position.z = z
   
+  point.lookAt(0,0,0)
+
   group.add(point)
 }
 
@@ -121,11 +123,14 @@ function animate(){
   requestAnimationFrame(animate)
   renderer.render(scene,camera)
  /* sphere.rotation.y += 0.003 */
+
+  if(mouse.x){
   gsap.to(group.rotation, {
     x: -mouse.y * 0.3,
     y: mouse.x * 0.5,
     duration: 1
   })
+  }
 }
 
 animate()
