@@ -89,7 +89,9 @@ function createPoint(lat , long){
 
   const box = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,1), 
   new THREE.MeshBasicMaterial({
-  color: '#3BF7FF'
+  color: '#3BF7FF',
+  opacity: 0.7,
+  transparent: true
 })
 )
 
@@ -130,12 +132,12 @@ const mouse = {
   y: undefined
 }
 
-const raycaster = new THREE.Raycaster();
+ const raycaster = new THREE.Raycaster()
 
 function animate(){
   requestAnimationFrame(animate)
   renderer.render(scene,camera)
- /* sphere.rotation.y += 0.003 */
+  group.rotation.y += 0.003 
 
   if(mouse.x){
   gsap.to(group.rotation, {
@@ -145,28 +147,29 @@ function animate(){
   })
   }
 
-  raycaster.setFromCamera( pointer, camera );
+  raycaster.setFromCamera( mouse, camera )
 
 	// calculate objects intersecting the picking ray
-	const intersects = raycaster.intersectObjects( scene.children );
+	const intersects = raycaster.intersectObjects( group.children.filter(mesh => 
+    {
+    return mesh.geometry.type === 'BoxGeometry'
+    console.log()
+    }
+    ) )
 
 	for ( let i = 0; i < intersects.length; i ++ ) {
+    intersects[i].object.material.opacity = 1  
 	}
 
-	renderer.render( scene, camera );
+	renderer.render( scene, camera )
 
-
+ 
 }
 
 animate()
 
-
-
-
-addEventListener('mousemove', () => {
-  mouse.x = (event.clientX / innerWidth)
-   * 2 - 1
-  mouse.y = -(event.clientY / innerHeight)
-  * 2 - 1
+addEventListener('mousemove', (event) => {
+  mouse.x = ((event.clientX - innerWidth / 2) / ( innerWidth/2 )) * 2 - 1
+  mouse.y = -(event.clientY / innerHeight) * 2 - 1
 })
 
