@@ -89,7 +89,7 @@ function createPoint(lat , long){
 
   const box = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,1), 
   new THREE.MeshBasicMaterial({
-  color: '#ff0000'
+  color: '#3BF7FF'
 })
 )
 
@@ -111,10 +111,12 @@ function createPoint(lat , long){
   group.add(box)
 
   gsap.to(box.scale, {
-      z: 0,
-      duration: 3,
+      z: 0.3,
+      duration: 2,
       yoyo: true,
-      repeat: -1
+      repeat: -1,
+      ease: 'linear',
+      delay: Math.random()
   })
  
 }
@@ -128,6 +130,8 @@ const mouse = {
   y: undefined
 }
 
+const raycaster = new THREE.Raycaster();
+
 function animate(){
   requestAnimationFrame(animate)
   renderer.render(scene,camera)
@@ -140,6 +144,18 @@ function animate(){
     duration: 1
   })
   }
+
+  raycaster.setFromCamera( pointer, camera );
+
+	// calculate objects intersecting the picking ray
+	const intersects = raycaster.intersectObjects( scene.children );
+
+	for ( let i = 0; i < intersects.length; i ++ ) {
+	}
+
+	renderer.render( scene, camera );
+
+
 }
 
 animate()
