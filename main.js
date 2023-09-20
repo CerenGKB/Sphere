@@ -87,7 +87,7 @@ camera.position.z = 15
 
 function createPoint(lat , long){
 
-  const point = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,1), 
+  const box = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,1), 
   new THREE.MeshBasicMaterial({
   color: '#ff0000'
 })
@@ -101,13 +101,22 @@ function createPoint(lat , long){
   const y = radius * Math.sin(latitude) 
   const z = radius * Math.cos(latitude) * Math.cos(longitude)
   
-  point.position.x = x
-  point.position.y = y
-  point.position.z = z
+  box.position.x = x
+  box.position.y = y
+  box.position.z = z
   
-  point.lookAt(0,0,0)
+  box.lookAt(0,0,0)
+  box.geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0, 0, -0.4 ))
 
-  group.add(point)
+  group.add(box)
+
+  gsap.to(box.scale, {
+      z: 0,
+      duration: 3,
+      yoyo: true,
+      repeat: -1
+  })
+ 
 }
 
 createPoint(52.3676, 4.9041)
