@@ -6,6 +6,7 @@ import fragmentShader from './shaders/fragment.glsl'
 import atmosphereVertexShader from './shaders/atmosphereVertex.glsl'
 import atmosphereFragmentShader from './shaders/atmosphereFragment.glsl'
 
+// test
 
 const canvasContainer = document.querySelector('#canvasContainer')
 
