@@ -6,7 +6,6 @@ import fragmentShader from './shaders/fragment.glsl'
 import atmosphereVertexShader from './shaders/atmosphereVertex.glsl'
 import atmosphereFragmentShader from './shaders/atmosphereFragment.glsl'
 
-// test
 
 const canvasContainer = document.querySelector('#canvasContainer')
 
@@ -126,6 +125,8 @@ function createPoint(lat , long){
 }
 
 createPoint(52.3676, 4.9041)
+createPoint(40.7128, 74.0060)
+
 
 sphere.rotation.y = -Math.PI / 2
 
@@ -135,6 +136,10 @@ const mouse = {
 }
 
  const raycaster = new THREE.Raycaster()
+// console.log(raycaster)
+// console.log(group.children)
+
+const popUp = document.querySelector('#popUp')
 
 
 function animate(){
@@ -142,13 +147,14 @@ function animate(){
   renderer.render(scene,camera)
   group.rotation.y += 0.003 
 
-  if(mouse.x){
-  gsap.to(group.rotation, {
-    x: -mouse.y * 0.3,
-    y: mouse.x * 0.5,
-    duration: 1
-  })
-  }
+  
+  // if(mouse.x){
+  // gsap.to(group.rotation, {
+  //   x: -mouse.y * 0.3,
+  //   y: mouse.x * 0.5,
+  //   duration: 1
+  // })
+  // }
 
   raycaster.setFromCamera(mouse, camera)
 
@@ -159,8 +165,12 @@ function animate(){
       }) 
     )
 
+  group.children.forEach((mesh) => {
+    mesh.material.opacity = 0.4
+  } )    
+
 	for(let i = 0; i < intersects.length; i++ ){
-   console.log(intersects[i])
+  intersects[i].object.material.opacity = 1
 	}
 
 	renderer.render( scene, camera )
@@ -173,6 +183,12 @@ animate()
 addEventListener('mousemove', (event) => {
   mouse.x = ((event.clientX - innerWidth / 2) / ( innerWidth/2 )) * 2 - 1
   mouse.y = -(event.clientY / innerHeight) * 2 + 1
+
+  gsap.set(popUp, {
+    x: event.clientX,
+    y: event.clientY
+  })
+
 })
 
 
