@@ -85,7 +85,7 @@ camera.position.z = 15
 
 
 
-function createPoint(lat , long){
+function createPoint({lat , long, country, populationNum}){
 
   const box = new THREE.Mesh(
   new THREE.BoxGeometry(0.2, 0.2, 1), 
@@ -122,10 +122,12 @@ function createPoint(lat , long){
       delay: Math.random()
   })
  
+  box.country = country
+  box.populationNum= populationNum
+
 }
 
-createPoint(52.3676, 4.9041)
-createPoint(40.7128, 74.0060)
+createPoint({lat: 52.3676, long: 4.9041, country: 'Netherlands', populationNum: '20 Mil'})
 
 
 sphere.rotation.y = -Math.PI / 2
@@ -140,12 +142,13 @@ const mouse = {
 // console.log(group.children)
 
 const popUp = document.querySelector('#popUp')
-
+const population = document.querySelector('#population')
+const populationValue = document.querySelector('#populationValue')
 
 function animate(){
   requestAnimationFrame(animate)
   renderer.render(scene,camera)
-  group.rotation.y += 0.003 
+  group.rotation.y += 0.002 
 
   
   // if(mouse.x){
@@ -169,8 +172,19 @@ function animate(){
     mesh.material.opacity = 0.4
   } )    
 
+  gsap.set(popUp, {
+    display: 'none'
+  })
+
+
 	for(let i = 0; i < intersects.length; i++ ){
-  intersects[i].object.material.opacity = 1
+    const box= intersects[i].object
+ box.material.opacity = 1
+  gsap.set(popUp, {
+    display: 'block'
+  })
+  population.innerHTML = box.country
+  populationValue.innerHTML = box.populationNum
 	}
 
 	renderer.render( scene, camera )
